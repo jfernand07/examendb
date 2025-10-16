@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: fhl_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - fhl-network
+
+  api:
+    build: .
+    container_name: fhl_api
+    ports:
+      - "${PORT}:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - fhl-network
+    command: >
+      sh -c "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run start"
+
+volumes:
+  pgdata:
+
+networks:
+  fhl-network:
+    driver: bridge
+

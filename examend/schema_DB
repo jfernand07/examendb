@@ -1,0 +1,79 @@
+CREATE USER pruebadb WITH PASSWORD 'Ja!31341';
+CREATE DATABASE examendb OWNER pruebadb;
+GRANT ALL PRIVILEGES ON DATABASE examendb TO pruebadb;
+
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(120) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    rol VARCHAR(50) NOT NULL DEFAULT 'usuario',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    email VARCHAR(120),
+    telefono VARCHAR(20),
+    direccion TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE bodegas (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    ubicacion TEXT,
+    contacto VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE productos (
+    id SERIAL PRIMARY KEY,
+    sku VARCHAR(50) UNIQUE NOT NULL,
+    nombre VARCHAR(120) NOT NULL,
+    descripcion TEXT,
+    precio NUMERIC(12,2) NOT NULL DEFAULT 0,
+    peso NUMERIC(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ordenes (
+    id SERIAL PRIMARY KEY,
+    clienteId INTEGER NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
+    bodegaId INTEGER REFERENCES bodegas(id) ON DELETE SET NULL,
+    estado OrderStatus NOT NULL DEFAULT 'CREATED',
+    fecha TIMESTAMP NOT NULL DEFAULT NOW(),
+    total NUMERIC(12,2) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+
+CREATE TABLE ordenproducto (
+    ordenId INT NOT NULL,
+    productoId INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio NUMERIC(12,2) NOT NULL,
+    estado VARCHAR(50) DEFAULT 'CREATED', 
+    PRIMARY KEY (ordenId, productoId),
+    CONSTRAINT fk_orden
+        FOREIGN KEY (ordenId)
+        REFERENCES ordenes(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_producto
+        FOREIGN KEY (productoId)
+        REFERENCES productos(id)
+        ON DELETE CASCADE
+);
+
+
+

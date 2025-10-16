@@ -1,0 +1,158 @@
+# Sistema de Gestión de Órdenes FHL
+
+## Información del Coder
+- **Nombre:** Jose Fernando Ospina Garcia
+- **Clan:** Linus
+
+## Descripción
+Este proyecto implementa un backend para la gestión de órdenes de entrega de clientes, permitiendo:
+- Registro y autenticación de usuarios mediante JWT
+- Manejo de clientes, productos y órdenes en una base de datos SQL (Sequelize)
+- Almacenamiento de logs y métricas en MongoDB
+- Automatización de tareas con Cron Jobs
+- Contenedorización con Docker
+
+## Tecnologías
+- Node.js
+- TypeScript
+- Express.js
+- Sequelize (SQL)
+- Docker
+- JWT para autenticación
+
+
+## Requisitos
+- Node.js >= 18
+- npm >= 9
+- Docker 
+- Base de datos SQL (MySQL, PostgreSQL o SQLite según tu configuración)
+
+## Intalacion de Dependencias y Dev depedencies
+npm install express
+npm install body-parser
+npm install cors
+npm install dotenv
+npm install jsonwebtoken
+npm install bcryptjs
+npm install sequelize
+npm install mysql2         # Si usas MySQL
+## instalacion de PSQL
+npm install pg pg-hstore   # Si usas PostgreSQL
+
+## Intalacion de Docker
+docker-compose up --build
+docker-compose up
+## detene rlos contenedores 
+
+docker-compose down
+
+## Ver Logs
+docker-compose logs -f
+
+
+## Dev dependecies
+npm install -D typescript
+npm install -D ts-node
+npm install -D nodemon
+npm install -D @types/node
+npm install -D @types/express
+npm install -D @types/jsonwebtoken
+npm install -D @types/bcryptjs
+
+## Inicializar el TypeScript
+npx tsc --init
+
+## Comandos útiles
+
+npx nodemon src/app.ts
+
+Ejecutar el proyecto ya compilado:
+
+node dist/app.ts
+
+
+## Instalación
+
+1. Clonar el repositorio:
+```bash
+git clone :
+cd nombre-proyecto
+
+## .ENV
+PORT=5000
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=tu_password
+DB_NAME=nombre_db
+JWT_SECRET=clave_secreta
+MONGO_URI=mongodb://localhost:27017/logs
+
+## Comando para aplicar los seeders
+npx sequelize-cli db:seed:all
+
+## Uso
+
+- Registrar un usuario:
+POST http://localhost:5000/api/auth/register
+```json
+{
+  "name": "Jose",
+  "last_name": "Ospina",
+  "email": "correo@ejemplo.com",
+  "password": "123456"
+}
+
+
+
+
+
+/Src
+  config.db/
+    db.ts
+    seeder.db.ts
+  controllers/
+    auth.controller.ts
+    bodegas.controller.ts
+    clientes.controller.ts
+    ordenes.controller.ts
+    productos.controller.ts
+    user.controller.ts
+  interfaces/
+    bodegas.interface.ts
+    clientes.interface.ts
+    orden.interface.ts
+    ordenproducto.interface.ts
+    productos.interface.ts
+    user.interface.ts
+  Middlewares/
+    hash.password.ts
+    logger.JWT.ts
+    roles.middleware.ts
+  models/
+    bodegas.model.ts
+    clientes.model.ts
+    orden.model.ts
+    ordenproducto.models.ts
+    productos.models.ts
+    users.model.ts
+  routes/
+    auth.ts
+    bodegas.ts
+    clientes.ts
+    ordenes.ts
+    productos.ts
+    user.ts
+  seeders/
+    bodega.seeders.ts
+    cliente.seeders.ts
+    producto.seeders.ts
+  services/
+    bodega.services.ts
+    clientes.services.ts
+    logs.services.ts
+    orden.service.ts
+    user.services.ts
+  type/
+    enum.ts
+    types.ts
+  app.ts
